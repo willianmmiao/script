@@ -32,6 +32,7 @@ jobs:
         run: |
           npm install
       - name: '运行 【抖音火山版】'
+        if: env.HSURL
         run: |
           node huoshan.js
         env:
