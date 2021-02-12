@@ -13,6 +13,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     if: github.event.repository.owner.id == github.event.sender.id
+    env:
+         HSURL: ${{ secrets.HSURL }}
+         HSHEADER: ${{ secrets.HSHEADER }}
+         HSBODY: ${{ secrets.HSBODY }}
+         PLAYURL: ${{ secrets.PLAYURL }}
+         PLAYHEADER: ${{ secrets.PLAYHEADER }}
+         PLAYBODY: ${{ secrets.PLAYBODY }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -28,13 +35,6 @@ jobs:
         run: |
           node huoshan.js
         env:
-          HSURL: ${{ secrets.HSURL }}
-          HSHEADER: ${{ secrets.HSHEADER }}
-          HSBODY: ${{ secrets.HSBODY }}
-          PLAYURL: ${{ secrets.PLAYURL }}
-          PLAYHEADER: ${{ secrets.PLAYHEADER }}
-          PLAYBODY: ${{ secrets.PLAYBODY }}
-          JD_DEBUG: ${{ secrets.JD_DEBUG }}
           PUSH_KEY: ${{ secrets.PUSH_KEY }}
           BARK_PUSH: ${{ secrets.BARK_PUSH }}
           TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
