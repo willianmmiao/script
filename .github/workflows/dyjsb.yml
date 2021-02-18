@@ -6,7 +6,7 @@ name: 抖音极速版
 on:
   workflow_dispatch:
   schedule:
-    - cron: '*/2 * * * *'
+    - cron: '0 8 30 1 *'
   watch:
     types: started
   repository_dispatch:
