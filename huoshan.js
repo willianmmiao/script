@@ -7,24 +7,26 @@ boxjs：https://raw.githubusercontent.com/ZhiYi-N/Private-Script/master/ZhiYi-N.
 谢谢
 作者：执意ZhiYi-N
 #看一个视频弹出金币获取ck
+
 [mitm]
-hostname = api3-normal-c-*.huoshan.com
+hostname = *.huoshan.com
 #圈x
 [rewrite local]
-https://api3-normal-c-\w+.huoshan.com/hotsoon/flame/task_done/? url script-request-body https://raw.githubusercontent.com/ZhiYi-N/Private-Script/master/Scripts/huoshan.js
+/hotsoon/flame/task_done/? url script-request-body https://raw.githubusercontent.com/ZhiYi-N/Private-Script/master/Scripts/huoshan.js
 
-https://api3-normal-c-\w+.huoshan.com/hotsoon/item/reaction/_play/? url script-request-body https://raw.githubusercontent.com/ZhiYi-N/Private-Script/master/Scripts/huoshan.js
+/hotsoon/item/reaction/_play/? url script-request-body https://raw.githubusercontent.com/ZhiYi-N/Private-Script/master/Scripts/huoshan.js
 
 #loon
-http-request https://api3-normal-c-\w+.huoshan.com/hotsoon/flame/task_done/? script-path=https://raw.githubusercontent.com/ZhiYi-N/Private-Script/master/Scripts/huoshan.js, requires-body=true, timeout=10, tag=抖音火山版video
+http-request /hotsoon/flame/task_done/? script-path=https://raw.githubusercontent.com/ZhiYi-N/Private-Script/master/Scripts/huoshan.js, requires-body=true, timeout=10, tag=抖音火山版video
 
-http-request https://api3-normal-c-\w+.huoshan.com/hotsoon/item/reaction/_play/? script-path=https://raw.githubusercontent.com/ZhiYi-N/Private-Script/master/Scripts/huoshan.js, requires-body=true, timeout=10, tag=抖音火山版play
+http-request /hotsoon/item/reaction/_play/? script-path=https://raw.githubusercontent.com/ZhiYi-N/Private-Script/master/Scripts/huoshan.js, requires-body=true, timeout=10, tag=抖音火山版play
 
 #surge
-抖音火山版video = type=http-request,pattern=^https://api3-normal-c-\w+.huoshan.com/hotsoon/flame/task_done/?,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/ZhiYi-N/Private-Script/master/Scripts/huoshan.js,script-update-interval=0
+抖音火山版video = type=http-request,pattern=/hotsoon/flame/task_done/?,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/ZhiYi-N/Private-Script/master/Scripts/huoshan.js,script-update-interval=0
 
-抖音火山版play = type=http-request,pattern=^https://api3-normal-c-\w+.huoshan.com/hotsoon/item/reaction/_play/?,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/ZhiYi-N/Private-Script/master/Scripts/huoshan.js,script-update-interval=0
+抖音火山版play = type=http-request,pattern=/hotsoon/item/reaction/_play/?,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/ZhiYi-N/Private-Script/master/Scripts/huoshan.js,script-update-interval=0
 */
+
 const zhiyi = '抖音火山版'
 const $ = Env(zhiyi)
 const notify = $.isNode() ?require('./sendNotify') : '';
@@ -37,7 +39,7 @@ let playbody = $.getdata('playbody')
 let hsurl = $.getdata('hsurl')
 let hsheader = $.getdata('hsheader')
 let hsbody = $.getdata('hsbody')
-let tz = ($.getval('tz') || '0');//0关闭通知，1默认开启
+let tz = ($.getval('tz') || '1');//0关闭通知，1默认开启
 const invite=1;//新用户自动邀请，0关闭，1默认开启
 const logs =0;//0为关闭日志，1为开启
 var hour=''
@@ -60,80 +62,13 @@ if (isGetCookie) {
    $.done()
 } 
 if ($.isNode()) {
-//   if (process.env.HSURL && process.env.HSURL.indexOf('#') > -1) {
-//   hsurl = process.env.HSURL.split('#');
-//   console.log(`您选择的是用"#"隔开\n`)
-//  }
-//  else if (process.env.HSURL && process.env.HSURL.indexOf('\n') > -1) {
-//   hsurl = process.env.HSURL.split('\n');
-//   console.log(`您选择的是用换行隔开\n`)
-//  } else {
-//   hsurl = process.env.HSURL.split()
-//  };
-//  if (process.env.HSHEADER && process.env.HSHEADER.indexOf('#') > -1) {
-//   hsheader = process.env.HSHEADER.split('#');
-//   console.log(`您选择的是用"#"隔开\n`)
-//  }
-//  else if (process.env.HSHEADER && process.env.HSHEADER.indexOf('\n') > -1) {
-//   hsheader = process.env.HSHEADER.split('\n');
-//   console.log(`您选择的是用换行隔开\n`)
-//  } else {
-//   hsheader = process.env.HSHEADER.split()
-//  };
-//  if (process.env.HSBODY && process.env.HSBODY.indexOf('#') > -1) {
-//   hsbody = process.env.HSBODY.split('#');
-//   console.log(`您选择的是用"#"隔开\n`)
-//  }
-//  else if (process.env.HSBODY && process.env.HSBODY.indexOf('\n') > -1) {
-//   hsbody = process.env.HSBODY.split('\n');
-//   console.log(`您选择的是用换行隔开\n`)
-//  } else {
-//   hsbody = process.env.HSBODY.split()
-//  };
-//if (process.env.PLAYURL && process.env.PLAYURL.indexOf('#') > -1) {
-//   playurl = process.env.PLAYURL.split('#');
-//   console.log(`您选择的是用"#"隔开\n`)
-//  }
-//  else if (process.env.PLAYURL && process.env.PLAYURL.indexOf('\n') > -1) {
-//   playurl = process.env.PLAYURL.split('\n');
-//   console.log(`您选择的是用换行隔开\n`)
-//  } else {
-//   playurl = process.env.PLAYURL.split()
-//  };
-//  if (process.env.PLAYHEADER && process.env.PLAYHEADER.indexOf('#') > -1) {
-//   playheader = process.env.PLAYHEADER.split('#');
-//   console.log(`您选择的是用"#"隔开\n`)
-//  }
-//  else if (process.env.PLAYHEADER && process.env.PLAYHEADER.indexOf('\n') > -1) {
-//   playheader = process.env.PLAYHEADER.split('\n');
-//   console.log(`您选择的是用换行隔开\n`)
-//  } else {
-//   playheader = process.env.PLAYHEADER.split()
-//  };
-//  if (process.env.PLAYBODY && process.env.PLAYBODY.indexOf('#') > -1) {
-//   playbody = process.env.PLAYBODY.split('#');
-//   console.log(`您选择的是用"#"隔开\n`)
-//  }
-//  else if (process.env.PLAYBODY && process.env.PLAYBODY.indexOf('\n') > -1) {
-//   playbody = process.env.PLAYBODY.split('\n');
-//   console.log(`您选择的是用换行隔开\n`)
-//  } else {
-//   playbody = process.env.PLAYBODY.split()
-//  };
-
-//    hsurlArr.push('你的ck')
-//    hsheaderArr.push('你的ck')
-//    hsbodyArr.push('你的ck')
-//    playurlArr.push('你的ck')
-//    playheaderArr.push('你的ck')
-//    playbodyArr.push('你的ck')
-
+	
     hsurlArr.push('version_code=10.8.5&js_sdk_version=1.93.0.1&app_name=live_stream&vid=FBE30398-A84F-4A66-843C-4103253BEB28&device_id=39436118956&new_nav=0&channel=App%20Store&multi_login=1&aid=1112&hs_location_permission=0&screen_width=1242&client_request_id=7d44a7142f6996184d2638f8219eba57&openudid=4b686c4c7e26cbd5638dcec2232e9b07d0a5f44f&minor_control_status=0&live_sdk_version=10.8.5&os_api=18&update_version_code=10080507&ac=4G&mccmnc=46011&os_version=14.2&ws_status=INIT&jssdk_version=1.93.0.1&client_version_code=100805&device_platform=iphone&tab_mode=3&device_type=iPhone9,2&is_vcd=1&settings_version=24&idfa=00000000-0000-0000-0000-000000000000')
     hsheaderArr.push('{"X-Gorgon":"840480ad100058158ad8820ae0f048177e300d8f6bab99c06298","x-tt-trace-id":"00-6205adce0992e936bacab4eef8570458-6205adce0992e936-01","Connection":"keep-alive","X-SS-DP":"1112","Tt-Config-Version":"ce2ecc88-4ac887d8-a9484a44-a16ab6bf","sdk-version":"2","Accept-Encoding":"gzip, deflate, br","Content-Type":"application/x-www-form-urlencoded","x-Tt-Token":"00841ed988709e390d1f1c52610fff556e04cef5420ec303e827e8c203362350b913dcbd3f9f48a63d5b0bae1c64d5b72538871e623c7f2e6c8fc8745ace0715183dc2f867183d3464f45b983cc6835357ff6fd7fce7138f78cc7ec7e57f7d55d8684-1.0.1","X-SS-STUB":"3B261CAA7268A0BD0A93E3F65756DAE6","X-Khronos":"1612257274","User-Agent":"ç«å±±å°è§é¢ 10.8.5 rv:10080507 (iPhone; iOS 14.2; zh_CN) Cronet","passport-sdk-version":"5.12.1","Host":"api3-normal-c-lq.huoshan.com","Tt-Tnc-Canary":"1","Tt-Tnc-Etag":"ce2ecc88-4ac887d8-a9484a44-a16ab6bf","Cookie":"install_id=1636492022920318; ttreq=1$53ee2701f71378e0b4731d925893a5e17823f861; passport_csrf_token_default=fd9f9d82f0e78f44c0b570a67399fffc; d_ticket=09471441fba24047e6f71523bb6e8dc4a0599; multi_sids=3325336527571416%3A841ed988709e390d1f1c52610fff556e; n_mh=FanDFbDtTIHXCkPURE60NM12r2WhHbvksze5vJiBJD0; odin_tt=cc2636377d699b7cd6656551efd05b13297ebe86b9e0dc1734ad5ea316543f5e118b1ad45e5996f62c7cd18eaa0b2bad7e34cb12a3f6fc4352a46603ad5e2170; sessionid=841ed988709e390d1f1c52610fff556e; sessionid_ss=841ed988709e390d1f1c52610fff556e; sid_guard=841ed988709e390d1f1c52610fff556e%7C1612176906%7C5184000%7CFri%2C+02-Apr-2021+10%3A55%3A06+GMT; sid_tt=841ed988709e390d1f1c52610fff556e; uid_tt=7b9d69684eb4edf64d449ff532276003; uid_tt_ss=7b9d69684eb4edf64d449ff532276003","X-Tyhon":"my1pc5mfbXWI7B5nruAZbInEEGqP431w3MR4c3w=","Content-Length":"116"}')	 
     hsbodyArr.push('token=WJgdmh9KBa7YTfEgq7ItfUxDylrBT58ao7wCPmfZZtP5UY8UIuhBPcBBNlvEcF8Uf7HnAtm2_jIGWJuY5Nynd6jDyEjg6Xzij7xuNmUrgmA=')
     playurlArr.push('https://api3-normal-c-lq.huoshan.com/hotsoon/item/reaction/_play/?js_sdk_version=1.93.0.1&client_request_id=89860d968961478f0a6dfb6b9c4e9885&minor_control_status=0&ac=4G&tab_mode=3&')
     playheaderArr.push('{"Accept-Encoding":"gzip, deflate, br","x-Tt-Token":"00841ed988709e390d1f1c52610fff556e04cef5420ec303e827e8c203362350b913dcbd3f9f48a63d5b0bae1c64d5b72538871e623c7f2e6c8fc8745ace0715183dc2f867183d3464f45b983cc6835357ff6fd7fce7138f78cc7ec7e57f7d55d8684-1.0.1","Host":"api3-normal-c-lq.huoshan.com","x-tt-trace-id":"00-62055ff50992e936bac50a82f9b60458-62055ff50992e936-01","passport-sdk-version":"5.12.1","X-Khronos":"1612257255","Connection":"keep-alive","X-SS-STUB":"27FB7A6BCE58869BF67B4E128445CB54","X-Tyhon":"qGWctQ3SmLMcoeuhOq3sqh2J5awbroi2SImNMU4=","User-Agent":"ç«å±±å°è§é¢ 10.8.5 rv:10080507 (iPhone; iOS 14.2; zh_CN) Cronet","Content-Type":"application/x-www-form-urlencoded","Tt-Tnc-Canary":"1","sdk-version":"2","Tt-Tnc-Etag":"ce2ecc88-4ac887d8-a9484a44-a16ab6bf","X-SS-DP":"1112","Tt-Config-Version":"ce2ecc88-4ac887d8-a9484a44-a16ab6bf","x-common-params-v2":"settings_version=24&version_code=10.8.5&app_name=live_stream&vid=FBE30398-A84F-4A66-843C-4103253BEB28&device_id=39436118956&channel=App%20Store&new_nav=0&multi_login=1&aid=1112&hs_location_permission=0&screen_width=1242&openudid=4b686c4c7e26cbd5638dcec2232e9b07d0a5f44f&live_sdk_version=10.8.5&os_api=18&update_version_code=10080507&mccmnc=46011&os_version=14.2&ws_status=INIT&jssdk_version=1.93.0.1&client_version_code=100805&device_platform=iphone&device_type=iPhone9,2&idfa=00000000-0000-0000-0000-000000000000&is_vcd=1","Cookie":"install_id=1636492022920318; ttreq=1$53ee2701f71378e0b4731d925893a5e17823f861; passport_csrf_token_default=fd9f9d82f0e78f44c0b570a67399fffc; d_ticket=09471441fba24047e6f71523bb6e8dc4a0599; multi_sids=3325336527571416%3A841ed988709e390d1f1c52610fff556e; n_mh=FanDFbDtTIHXCkPURE60NM12r2WhHbvksze5vJiBJD0; odin_tt=cc2636377d699b7cd6656551efd05b13297ebe86b9e0dc1734ad5ea316543f5e118b1ad45e5996f62c7cd18eaa0b2bad7e34cb12a3f6fc4352a46603ad5e2170; sessionid=841ed988709e390d1f1c52610fff556e; sessionid_ss=841ed988709e390d1f1c52610fff556e; sid_guard=841ed988709e390d1f1c52610fff556e%7C1612176906%7C5184000%7CFri%2C+02-Apr-2021+10%3A55%3A06+GMT; sid_tt=841ed988709e390d1f1c52610fff556e; uid_tt=7b9d69684eb4edf64d449ff532276003; uid_tt_ss=7b9d69684eb4edf64d449ff532276003","Content-Length":"142","X-Gorgon":"8404806210005fef6565336fabba28db20ae9c2b9354d449bfd5"}')
-    playbodyArr.push('action_backtrace=video&channel_id=10000&is_city_near_by=0&is_dy_domain=0&is_follower=0&is_following=0&item_id=6918311738446236942&source=video')
+    playbodyArr.push('action_backtrace=video&channel_id=10000&is_city_near_by=0&is_dy_domain=0&is_follower=0&is_following=0&item_id=6918311738446236942&source=video')	
     console.log(`============ 脚本执行-国际标准时间(UTC)：${new Date().toLocaleString()}  =============\n`)
     console.log(`============ 脚本执行-北京时间(UTC+8)：${new Date(new Date().getTime() + 8 * 60 * 60 * 1000).toLocaleString()}  =============\n`)
  } else {
@@ -158,11 +93,6 @@ if (!hsheaderArr[0] && !hsbodyArr[0] && !hsurlArr[0]) {
     $.msg($.name, '【提示】请先获取抖音火山版一cookie')
     return;
   }
-
-  //==============自定义循环==========================
-    if ($.isNode()) {
-      while(true){
-
    console.log(`------------- 共${hsheaderArr.length}个账号----------------\n`)
   for (let i = 0; i < hsheaderArr.length; i++) {
     if (hsheaderArr[i]) {
@@ -186,54 +116,15 @@ if (!hsheaderArr[0] && !hsbodyArr[0] && !hsurlArr[0]) {
       await hotsoonfeed()
       await control()
       await lottery_main()
-      await lottery()
+      await lottery() 
       await showmsg()
   }
  }
-
-     console.log(`===本次任务执行完毕，休息1分钟-北京时间(UTC+8)：${new Date(new Date().getTime() + 8 * 60 * 60 * 1000).toLocaleString()}  ===\n`)
-     await $.wait(60000)
-
-      }
-    }else{
-
-   console.log(`------------- 共${hsheaderArr.length}个账号----------------\n`)
-  for (let i = 0; i < hsheaderArr.length; i++) {
-    if (hsheaderArr[i]) {
-      message = ''
-      note = ''
-      hsurl = hsurlArr[i];
-      hsheader = hsheaderArr[i];
-      hsbody = hsbodyArr[i];
-      playurl = playurlArr[i];
-      playheader = playheaderArr[i];
-      playbody = playbodyArr[i];
-      $.index = i + 1;
-      console.log(`\n开始【抖音火山版${$.index}】`)
-      //await ck()
-      await app_alert_check()
-      await device_register()
-      await userinfo()
-      await gettoken()
-      await sign_in()
-      //await ad()
-      await hotsoonfeed()
-      await control()
-      await lottery_main()
-      await lottery()
-      await showmsg()
-  }
- }
-
-  }
-   //==============自定义循环==========================
-
-
 })()
     .catch((e) => $.logErr(e))
     .finally(() => $.done())
-
-
+    
+    
 function GetCookie() {
 if($request&&$request.url.indexOf("task_done")>=0) {
    const hsurl = $request.url.split('?')[1]
@@ -257,7 +148,7 @@ if($request&&$request.url.indexOf("reaction/_play")>=0) {
    $.log(`[${zhiyi}] 获取playurl请求: 成功,playurl: ${playurl}`)
    $.msg(`playurl${status}: 成功🎉`, ``)
    const playheader =JSON.stringify($request.headers)+''
-    if(playheader)
+    if(playheader)    
 $.setdata(playheader,`playheader${status}`)
     $.log(`[${zhiyi}] 获取playheader请求: 成功,playheader: ${playheader}`)
     $.msg(`playheader${status}: 成功🎉`, ``)
@@ -317,10 +208,10 @@ let check_url = 'https://ichannel.snssdk.com/service/2/app_alert_check/?'+iid+'&
           $.logErr(e, response);
       } finally {
         resolve();
-      }
+      } 
     })
    })
-  }
+  }  
 //false no function
 async function device_register(){
 let new_time = Math.round(new Date().getTime()/1000).toString();
@@ -342,10 +233,10 @@ let new_time = Math.round(new Date().getTime()/1000).toString();
           $.logErr(e, response);
       } finally {
         resolve();
-      }
+      } 
     })
    })
-  }
+  }  
 //userinfo
 async function userinfo(){
 let new_time = Math.round(new Date().getTime()/1000).toString();
@@ -372,7 +263,7 @@ let new_time = Math.round(new Date().getTime()/1000).toString();
           $.logErr(e, response);
       } finally {
         resolve();
-      }
+      } 
     })
    })
   }
@@ -409,10 +300,10 @@ let new_time = Math.round(new Date().getTime()/1000).toString();
           $.logErr(e, response);
       } finally {
         resolve();
-      }
+      } 
     })
    })
-  }
+  }  
 //sign_in
 async function sign_in(){
 let new_time = Math.round(new Date().getTime()/1000).toString();
@@ -439,10 +330,10 @@ let new_time = Math.round(new Date().getTime()/1000).toString();
           $.logErr(e, response);
       } finally {
         resolve();
-      }
+      } 
     })
    })
-  }
+  }  
 //ad
 async function ad(){
 let new_time = Math.round(new Date().getTime()/1000).toString();
@@ -469,10 +360,10 @@ let new_time = Math.round(new Date().getTime()/1000).toString();
           $.logErr(e, response);
       } finally {
         resolve();
-      }
+      } 
     })
    })
-  }
+  } 
 async function ck(){
   $.log('hsurl:'+hsurl)
   $.log('hsbody:'+hsbody)
@@ -502,10 +393,10 @@ let new_time = Math.round(new Date().getTime()/1000).toString();
           $.logErr(e, response);
       } finally {
         resolve();
-      }
+      } 
     })
    })
-  }
+  } 
 //play_video
 async function play_video(){
 let new_time = Math.round(new Date().getTime()/1000).toString();
@@ -514,7 +405,7 @@ let newplaybody = playbody.replace(/\d{19}/,`${item_id_inv}`)
  return new Promise((resolve) => {
     let play_video_url = {
      url: playurl,
-    	headers: JSON.parse(playheader),
+    	headers: JSON.parse(playheader), 	
      body: newplaybody
 }
    $.post(play_video_url,async(error, response, data) =>{
@@ -534,10 +425,10 @@ let newplaybody = playbody.replace(/\d{19}/,`${item_id_inv}`)
           $.logErr(e, response);
       } finally {
         resolve();
-      }
+      } 
     })
    })
-  }
+  } 
 
 //video_rewards
 async function video_rewards(){
@@ -574,7 +465,7 @@ async function video_rewards(){
           $.logErr(e, response);
       } finally {
         resolve();
-      }
+      } 
     })
    })
 }
@@ -605,7 +496,7 @@ let new_time = Math.round(new Date().getTime()/1000).toString();
           $.logErr(e, response);
       } finally {
         resolve();
-      }
+      } 
     })
    })
   }
@@ -652,7 +543,7 @@ let new_time = Math.round(new Date().getTime()/1000).toString();
           $.logErr(e, response);
       } finally {
         resolve();
-      }
+      } 
     })
    })
   }
@@ -683,7 +574,7 @@ async function add_lottery(){
           $.logErr(e, response);
       } finally {
         resolve();
-      }
+      } 
     })
    })
 }
@@ -712,7 +603,7 @@ async function task_ack(){
           $.logErr(e, response);
       } finally {
         resolve();
-      }
+      } 
     })
    })
 }
