@@ -6,7 +6,7 @@ name: 抖音火山版
 on:
   workflow_dispatch:
   schedule:
-    - cron: '*/15 2-6 * * *'
+    - cron: '*/15 0-10 * * *'
   watch:
     types: started
 jobs:
