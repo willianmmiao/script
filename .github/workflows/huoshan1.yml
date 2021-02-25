@@ -14,12 +14,12 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event.repository.owner.id == github.event.sender.id
     env:
-         HSURL: ${{ secrets.HSURL1 }}
-         HSHEADER: ${{ secrets.HSHEADER1 }}
-         HSBODY: ${{ secrets.HSBODY1 }}
-         PLAYURL: ${{ secrets.PLAYURL1 }}
-         PLAYHEADER: ${{ secrets.PLAYHEADER1 }}
-         PLAYBODY: ${{ secrets.PLAYBODY1 }}
+         HSURL: ${{ secrets.HSURL }}
+         HSHEADER: ${{ secrets.HSHEADER }}
+         HSBODY: ${{ secrets.HSBODY }}
+         PLAYURL: ${{ secrets.PLAYURL }}
+         PLAYHEADER: ${{ secrets.PLAYHEADER }}
+         PLAYBODY: ${{ secrets.PLAYBODY }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -32,7 +32,7 @@ jobs:
         run: |
           npm install
       - name: '运行 【抖音火山版】'
-        if: env.HSURL1
+        if: env.HSURL
         run: |
           node huoshan1.js
         env:
