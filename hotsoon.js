@@ -1,20 +1,10 @@
-/*
-
-#签到详情获取signheader and signkey，一定要签到详情界面获取到的
-#看广告获取adheader and adkey
-#看一个视频获取readheader and readkey
-
-*/
-
-
-const jsname='火山极速_小爱豆'
+const jsname='火山视频极速版'
 const $ = Env(jsname)
 const notify = $.isNode() ?require('./sendNotify') : '';
 $.idx = ($.idx = ($.getval("hotsooncount") || "1") - 1) > 0 ? `${$.idx + 1}` : ""; // 账号扩展字符
 const hotsoonsignheaderArr = [],hotsoonsignkeyArr=[]
 const hotsoonadheaderArr = [],hotsoonadkeyArr=[]
 const hotsoonreadheaderArr = [],hotsoonreadkeyArr=[]
-const hotsoonspamheaderArr = [],hotsoonspamkeyArr=[]
 let hotsoonsignheader = $.getdata('hotsoonsignheader')
 let hotsoonsigncookie = $.getdata('hotsoonsigncookie')
 
@@ -73,7 +63,7 @@ if (process.env.HOTSOONADHEADER && process.env.HOTSOONADHEADER.indexOf('#') > -1
   } else {
    hotsoonadheader = process.env.HOTSOONADHEADER.split()
   };
-  if (process.env.HOTSOONADKEY && process.env.HOTSOONADKEY.indexOf('#') > -1) {
+  if (process.env. HOTSOONADKEY&& process.env.HOTSOONADKEY.indexOf('#') > -1) {
    hotsoonadkey = process.env.HOTSOONADKEY.split('#');
   }
   else if (process.env.HOTSOONADKEY && process.env.HOTSOONADKEY.split('\n').length > 0) {
@@ -92,32 +82,13 @@ if (process.env.HOTSOONREADHEADER && process.env.HOTSOONREADHEADER.indexOf('#') 
   } else {
    hotsoonreadheader = process.env.HOTSOONREADHEADER.split()
   };
-  if (process.env.HOTSOONREADKEY && process.env.HOTSOONREADKEY.indexOf('#') > -1) {
+  if (process.env. HOTSOONREADKEY&& process.env.HOTSOONREADKEY.indexOf('#') > -1) {
    hotsoonreadkey = process.env.HOTSOONREADKEY.split('#');
   }
   else if (process.env.HOTSOONREADKEY && process.env.HOTSOONREADKEY.split('\n').length > 0) {
    hotsoonreadkey = process.env.HOTSOONREADKEY.split('\n');
   } else  {
    hotsoonreadkey = process.env.HOTSOONREADKEY.split()
-  };
-//Spam
-if (process.env.HOTSOONSPAMHEADER && process.env.HOTSOONSPAMHEADER.indexOf('#') > -1) {
-   hotsoonspamheader = process.env.HOTSOONSPAMHEADER.split('#');
-   console.log(`您选择的是用"#"隔开\n`)
-  }
-  else if (process.env.HOTSOONSPAMHEADER && process.env.HOTSOONSPAMHEADER.indexOf('\n') > -1) {
-   hotsoonspamheader = process.env.HOTSOONSPAMHEADER.split('\n');
-   console.log(`您选择的是用换行隔开\n`)
-  } else {
-   hotsoonspamheader = process.env.HOTSOONSPAMHEADER.split()
-  };
-  if (process.env.HOTSOONSPAMKEY && process.env.HOTSOONSPAMKEY.indexOf('#') > -1) {
-   hotsoonspamkey = process.env.HOTSOONSPAMKEY.split('#');
-  }
-  else if (process.env.HOTSOONSPAMKEY && process.env.HOTSOONSPAMKEY.split('\n').length > 0) {
-   hotsoonspamkey = process.env.HOTSOONSPAMKEY.split('\n');
-  } else  {
-   hotsoonspamkey = process.env.HOTSOONSPAMKEY.split()
   };
 //sign
   Object.keys(hotsoonsignheader).forEach((item) => {
@@ -152,17 +123,6 @@ Object.keys(hotsoonreadheader).forEach((item) => {
           hotsoonreadkeyArr.push(hotsoonreadkey[item])
         }
     });
-//Spam
-Object.keys(hotsoonspamheader).forEach((item) => {
-        if (hotsoonspamheader[item]) {
-          hotsoonspamheaderArr.push(hotsoonspamheader[item])
-        }
-    });
-    Object.keys(hotsoonspamkey).forEach((item) => {
-        if (hotsoonspamkey[item]) {
-          hotsoonspamkeyArr.push(hotsoonspamkey[item])
-        }
-    });
     console.log(`============ 脚本执行-国际标准时间(UTC)：${new Date().toLocaleString()}  =============\n`)
     console.log(`============ 脚本执行-北京时间(UTC+8)：${new Date(new Date().getTime() + 8 * 60 * 60 * 1000).toLocaleString()}  =============\n`)
  } else {
@@ -172,8 +132,6 @@ Object.keys(hotsoonspamheader).forEach((item) => {
     hotsoonadkeyArr.push($.getdata('hotsoonadkey'))
     hotsoonreadheaderArr.push($.getdata('hotsoonreadheader'))
     hotsoonreadkeyArr.push($.getdata('hotsoonreadkey'))
-    hotsoonspamheaderArr.push($.getdata('hotsoonspamheader'))
-    hotsoonspamkeyArr.push($.getdata('hotsoonspamkey'))
     let hotsooncount = ($.getval('hotsooncount') || '1');
   for (let i = 2; i <= hotsooncount; i++) {
     hotsoonsignheaderArr.push($.getdata(`hotsoonsignheader${i}`))
@@ -182,8 +140,6 @@ Object.keys(hotsoonspamheader).forEach((item) => {
     hotsoonadkeyArr.push($.getdata(`hotsoonadkey${i}`))
     hotsoonreadheaderArr.push($.getdata(`hotsoonreadheader${i}`))
     hotsoonreadkeyArr.push($.getdata(`hotsoonreadkey${i}`))
-    hotsoonspamheaderArr.push($.getdata('hotsoonspamheader${i}'))
-    hotsoonspamkeyArr.push($.getdata('hotsoonspamkey${i}'))
   }
 }
 !(async () => {
@@ -192,8 +148,6 @@ if (!hotsoonsignheaderArr[0]) {
     return;
   }
    console.log(`------------- 共${hotsoonsignheaderArr.length}个账号----------------\n`)
-  for (let h = 0; h < 12; h++) {
-     console.log(`🚴‍♀️🚴‍♀️🚴‍♀️开始执行第${h+1}轮任务----------------🚴‍♀️🚴‍♀️🚴‍♀️\n`)
   for (let i = 0; i < hotsoonsignheaderArr.length; i++) {
     if (hotsoonsignheaderArr[i]) {
       message = ''
@@ -203,26 +157,17 @@ if (!hotsoonsignheaderArr[0]) {
       hotsoonadkey = hotsoonadkeyArr[i];
       hotsoonreadheader = hotsoonreadheaderArr[i];
       hotsoonreadkey = hotsoonreadkeyArr[i];
-      hotsoonspamheader = hotsoonspamheaderArr[i];
-      hotsoonspamkey = hotsoonspamkeyArr[i];
       $.index = i + 1;
       console.log(`\n开始【火山视频极速版${$.index}】`)
       //await userinfo()
-      if (h == 0 && hour == 6 || h == 0 && hour == 7) await sign_in()
-      if (h%4 == 0) await treasure_task()
+      await sign_in()
+      await treasure_task()
       await control()
-      for (let j = 0; j < 3; j++) {
-      //await profit()
-      await spam()
-      //await skill()
-      await watch_video()
-      await $.wait(20000)
-      }
-      if (h == 11 && hour == 18 ||h == 11 && hour == 19 ) await showmsg()
+      await profit()
+      await watch_video(no)
+      await showmsg()
   }
  }
-      await $.wait(240000)
-      }
 })()
     .catch((e) => $.logErr(e))
     .finally(() => $.done())
@@ -271,10 +216,8 @@ return new Promise((resolve, reject) => {
           message += '📣签到\n'
       if(result.err_no == 0) {
           message += result.err_tips+'\n'
-	  console.log(`【签到】${result.err_tips}；`)
       }else{
           message +='⚠️异常'+result.err_tips+'\n'
-	  console.log(`【签到】⚠️异常，${result.err_tips}；`)
            }
           resolve()
     })
@@ -293,10 +236,8 @@ return new Promise((resolve, reject) => {
       message += '📣随机宝箱\n'
       if(result.err_no == 0) {
            message += result.err_tips+result.data.tips+'\n'
-	   console.log(`【宝箱】${result.err_tips}，获得:${result.data.tips}；`)
        }else{
     	   message += '⚠️异常'+result.err_tips+'\n'
-	   console.log(`【宝箱】⚠️异常，${result.err_tips}；`)
        }
           resolve()
     })
@@ -326,41 +267,13 @@ return new Promise((resolve, reject) => {
      message += '📣广告收益\n'
      if(result.err_no == 0) {
           message += '🎉'+result.err_tips+"获得:"+result.data.amount+'\n'
-	  console.log(`【广告】🎉${result.err_tips}，获得:${result.data.amount}`)
       }else{
    	   message += '⚠️异常'+result.err_tips+'\n'
-	   console.log(`【广告】⚠️异常，${result.err_tips}；`)
       }
          resolve()
    })
   })
  } 
-//tasklist
-/*function tasklist() {
-return new Promise((resolve, reject) => {
-  let tasklisturl ={
-    url: `https://i.snssdk.com/luckycat/hotsoon/v1/task/page?&polaris_${hotsoonsignheader}`,
-    headers :JSON.parse(hotsoonsignkey),
-}
-   $.get(tasklisturl,(error, response, data) =>{
-     const result = JSON.parse(data)
-        if(logs)$.log(data)
-      for(let i = 2;i<=7;i++){
-        if(result.data.daily_tasks[i].completed == false) {
-         no = result.data.daily_tasks[i].name.match(/\d+/)          
-          break;
-       }
-         else if(result.data.daily_tasks[i].completed == true){
-          no = result.data.daily_tasks[i+1].name.match(/\d+/)
-           if(no == 'undefined') done;
-         }
-}
-          resolve()
-    })
-   })
-  } 
-*/
-
 //profit
 function profit() {
 return new Promise((resolve, reject) => {
@@ -383,395 +296,7 @@ $.log(no)
    })
   } 
 
-
-
-/*
-//tasklist
-function tasklist() {
-return new Promise((resolve, reject) => {
-  let tasklisturl ={
-    url: `https://i.snssdk.com/luckycat/hotsoon/v1/task/page?&polaris_${hotsoonsignheader}`,
-    headers :JSON.parse(hotsoonsignkey),
-}
-   $.get(tasklisturl,(error, response, data) =>{
-     const result = JSON.parse(data)
-        if(logs)$.log(data)
-      var a = result.data.daily_tasks.find(item => item.task_id === 1001).completed
-      var b = result.data.daily_tasks.find(item => item.task_id === 1017).completed
-      var c = result.data.daily_tasks.find(item => item.task_id === 1006).completed
-      var d = result.data.daily_tasks.find(item => item.task_id === 1003).completed
-      var e = result.data.daily_tasks.find(item => item.task_id === 1005).completed
-      var f = result.data.daily_tasks.find(item => item.task_id === 1009).completed
-      var g = result.data.daily_tasks.find(item => item.task_id === 1010).completed
-      if(a) no=2
-      if(b) no=5
-      if(c) no=10
-      if(d) no=20
-      if(e) no=30
-      if(f) no=60
-      if(g) {      
-      $.log('视频任务完成')
-      message += '视频任务完成\n'
-      if(!a)
-      no=1
-     }
-      resolve()
-    })
-   })
-  }
-
-*/
-
-
-//skill
-/*function skill() {
-return new Promise((resolve, reject) => {
-  let skillurl ={
-    url: `https://i-hl.snssdk.com/luckycat/hotsoon/v1/wallet/profit_detail_page?income_type=2&num=50&${hotsoonsignheader}`,
-    headers :JSON.parse(hotsoonsignkey),
-}
-   $.get(skillurl,(error, response, data) =>{
-     const result = JSON.parse(data)
-        //if(logs)$.log(data)
-  if(data.match(/\-\d+/)){
-     message += '昨日金币'+data.match(/\-\d+/)+'\n'
-     operate = 1;
-   }else{
-     operate = 0;
-}
-  return watch_video(no);      
-          resolve()
-    })
-   })
-  } 
-*/
-
-//Spam
-function spam() {
-return new Promise((resolve, reject) => {
-  let spamurl ={
-    url: `https://ib-hl.snssdk.com/luckycat/hotsoon/v1/spam/pre_check?${hotsoonspamheader}`,
-    headers: JSON.parse(hotsoonspamkey),
-    timeout: 60000,
-}
-   $.get(spamurl,(error, response, data) =>{
-     const result = JSON.parse(data)
-     console.log(`【Spam】${result.err_tips}；`)
-          resolve()
-    })
-   })
-  } 
-
 //看视频
-function watch_video() {
-return new Promise((resolve, reject) => {
-  let watch_videourl ={
-    url: `https://ib-hl.snssdk.com/luckycat/hotsoon/v1/task/done/daily_read_1m?version_code=7.6.1&app_name=live_stream_lite&vid=F8488563-79A8-4F10-8313-B25025043D7F&device_id=68445942781&channel=App%20Store&new_nav=0&aid=1350&ab_version=2067445,2063843,1944969,2056421,1698610,1776523,1479194,1258912,1810159,1521584,2071008,2054328,2008903,2071381,2031266,1751686,2032795,1432944,1569025,2002020,1568501,2061162,1802649,1618171,2076907,1830688,2078562,1340192,2080540,2063340,2027697,1880619,1917928,2071181,1993142,1856843,1801795,2033170,1978301,2014044,1747490,1745644,1972816,2066270,1317441,2025428,692223,2034632,1683111,1974796,2062707,2069850,1788903,1399159,1019139,2000818,1992860,1032070,1973126,2050796,1540549,2034028,1502678,2003549,1477984,2078274,1572498,2065549,1409058,1837386,2080075,1625927,1568501&ab_group=1568501&screen_width=750&client_request_id=d31ea4c1ad0e0c1ef534b1b11d2b5a75&openudid=212febcfeb5820b579e6d22c17bf89b70f07fc40&live_sdk_version=7.6.1&update_version_code=7611&os_api=18&ws_status=CLOSED&ac=WIFI&mccmnc=&os_version=14.0&client_version_code=761&device_platform=iphone&iid=4327299917021549&device_type=iPad7,5&idfa=71A7ADD8-40B1-4D5F-BCA0-73E278451A36`,
-    headers: {
-    "x-tt-trace-id": "00-0d9649a409fefb233fd2939fd1610546-0d9649a409fefb23-01",
-    "Connection": "keep-alive",
-    "Accept-Encoding": "gzip, deflate",
-    "X-SS-Cookie": "d_ticket=c34ab6943249c08f88595471efa5a6dea8305; odin_tt=5a1e1602d0df8e51a054d1471e5d0230012426798e9a05aee97adf3903e2ac9d9873a7f4d346fc0adccbbd6cc7b23ba59192ad3cfec61514aeeabd7af0798dde; sessionid=94fa705bf6685d07cd4adbe28f457c44; sessionid_ss=94fa705bf6685d07cd4adbe28f457c44; sid_guard=94fa705bf6685d07cd4adbe28f457c44%7C1602250593%7C5184000%7CTue%2C+08-Dec-2020+13%3A36%3A33+GMT; sid_tt=94fa705bf6685d07cd4adbe28f457c44; uid_tt=cf316afde271fa7023ae424b264f6d27; uid_tt_ss=cf316afde271fa7023ae424b264f6d27; install_id=4327299917021549; passport_csrf_token=c956d22d750f9e061a72a25adb20da32; ttreq=1$dbe44cfcdabaa32e39e6a764c85d3c2c3fd111cf",
-    "sdk-version": "1",
-    "Content-Type": "application/json; encoding=utf-8",
-    "x-Tt-Token": "0094fa705bf6685d07cd4adbe28f457c44a2441c559b1bf506ddf511bc2a88c4ed6fb70bba6f975605ef0848bb6a49631959",
-    "X-SS-STUB": "D41D8CD98F00B204E9800998ECF8427E",
-    "X-Khronos": "1602250753",
-    "User-Agent": "HotsoonLite 7.6.1 rv:7611 (iPad; iOS 14.0; zh_CN) Cronet",
-    "tt-request-time": "1602250754092",
-    "Cookie": "passport_csrf_token=c956d22d750f9e061a72a25adb20da32; install_id=4327299917021549; ttreq=1$dbe44cfcdabaa32e39e6a764c85d3c2c3fd111cf; odin_tt=5a1e1602d0df8e51a054d1471e5d0230012426798e9a05aee97adf3903e2ac9d9873a7f4d346fc0adccbbd6cc7b23ba59192ad3cfec61514aeeabd7af0798dde; d_ticket=c34ab6943249c08f88595471efa5a6dea8305; sessionid=94fa705bf6685d07cd4adbe28f457c44; sessionid_ss=94fa705bf6685d07cd4adbe28f457c44; sid_guard=94fa705bf6685d07cd4adbe28f457c44%7C1602250593%7C5184000%7CTue%2C+08-Dec-2020+13%3A36%3A33+GMT; sid_tt=94fa705bf6685d07cd4adbe28f457c44; uid_tt=cf316afde271fa7023ae424b264f6d27; uid_tt_ss=cf316afde271fa7023ae424b264f6d27",
-    "Host": "ib-hl.snssdk.com",
-    "X-Gorgon": "8402e01000005844b05907fce6e801035aca05ca04e9adaacc87",
-    "Accept": "application/json",
-    "Content-Length": "0"
-},
-    timeout: 60000,
-}
-   $.post(watch_videourl,async(error, response, data) =>{
-     const result = JSON.parse(data)
-       //$.log('hotsoon'+no) 
-       if(logs) $.log(data)
-       message += '📣看视频\n'
-      if(result.err_no == 0) {
-          message +='🎉'+result.err_tips+'获得:'+result.data.amount+"\n"
-	  console.log(`【视频】🎉${result.err_tips}，获得:${result.data.amount}；`)
-           //return showmsg()
-        }
-      else{
-          message += '⚠️异常:'+result.err_tips+'\n'+'慢点看，不要慌，一会恢复\n'
-	  console.log(`【视频】⚠️异常，${result.err_tips}；`)
-          await watch_video2()
-      }
-          resolve()
-    })
-   })
-  } 
-
-function watch_video2() {
-return new Promise((resolve, reject) => {
-  let watch_videourl ={
-    url: `https://ib-hl.snssdk.com/luckycat/hotsoon/v1/task/done/daily_read_2m?version_code=7.6.1&app_name=live_stream_lite&vid=F8488563-79A8-4F10-8313-B25025043D7F&device_id=68445942781&channel=App%20Store&new_nav=0&aid=1350&ab_version=2067445,2063843,1944969,2056421,1698610,1776523,1479194,1258912,1810159,1521584,2071008,2054328,2008903,2071381,2031266,1751686,2032795,1432944,1569025,2002020,1568501,2061162,1802649,1618171,2076907,1830688,2078562,1340192,2080540,2063340,2027697,1880619,1917928,2071181,1993142,1856843,1801795,2033170,1978301,2014044,1747490,1745644,1972816,2066270,1317441,2025428,692223,2034632,1683111,1974796,2062707,2069850,1788903,1399159,1019139,2000818,1992860,1032070,1973126,2050796,1540549,2034028,1502678,2003549,1477984,2078274,1572498,2065549,1409058,1837386,2080075,1625927,1568501&ab_group=1568501&screen_width=750&client_request_id=0ad243569e6666088bd395cd41b33d62&openudid=212febcfeb5820b579e6d22c17bf89b70f07fc40&live_sdk_version=7.6.1&update_version_code=7611&os_api=18&ws_status=CLOSED&ac=WIFI&mccmnc=&os_version=14.0&client_version_code=761&device_platform=iphone&iid=4327299917021549&device_type=iPad7,5&idfa=71A7ADD8-40B1-4D5F-BCA0-73E278451A36`,
-    headers: {
-    "Accept": "application/json",
-    "Accept-Encoding": "gzip, deflate",
-    "Connection": "keep-alive",
-    "Content-Length": "0",
-    "Content-Type": "application/json; encoding=utf-8",
-    "Cookie": "passport_csrf_token=c956d22d750f9e061a72a25adb20da32; install_id=4327299917021549; ttreq=1$dbe44cfcdabaa32e39e6a764c85d3c2c3fd111cf; odin_tt=5a1e1602d0df8e51a054d1471e5d0230012426798e9a05aee97adf3903e2ac9d9873a7f4d346fc0adccbbd6cc7b23ba59192ad3cfec61514aeeabd7af0798dde; d_ticket=c34ab6943249c08f88595471efa5a6dea8305; sessionid=94fa705bf6685d07cd4adbe28f457c44; sessionid_ss=94fa705bf6685d07cd4adbe28f457c44; sid_guard=94fa705bf6685d07cd4adbe28f457c44%7C1602250593%7C5184000%7CTue%2C+08-Dec-2020+13%3A36%3A33+GMT; sid_tt=94fa705bf6685d07cd4adbe28f457c44; uid_tt=cf316afde271fa7023ae424b264f6d27; uid_tt_ss=cf316afde271fa7023ae424b264f6d27",
-    "Host": "ib-hl.snssdk.com",
-    "User-Agent": "HotsoonLite 7.6.1 rv:7611 (iPad; iOS 14.0; zh_CN) Cronet",
-    "X-Gorgon": "8402c00a000097debdbb88d944fb26f7cd9960737d4429ab947c",
-    "X-Khronos": "1602250834",
-    "X-SS-Cookie": "d_ticket=c34ab6943249c08f88595471efa5a6dea8305; odin_tt=5a1e1602d0df8e51a054d1471e5d0230012426798e9a05aee97adf3903e2ac9d9873a7f4d346fc0adccbbd6cc7b23ba59192ad3cfec61514aeeabd7af0798dde; sessionid=94fa705bf6685d07cd4adbe28f457c44; sessionid_ss=94fa705bf6685d07cd4adbe28f457c44; sid_guard=94fa705bf6685d07cd4adbe28f457c44%7C1602250593%7C5184000%7CTue%2C+08-Dec-2020+13%3A36%3A33+GMT; sid_tt=94fa705bf6685d07cd4adbe28f457c44; uid_tt=cf316afde271fa7023ae424b264f6d27; uid_tt_ss=cf316afde271fa7023ae424b264f6d27; install_id=4327299917021549; passport_csrf_token=c956d22d750f9e061a72a25adb20da32; ttreq=1$dbe44cfcdabaa32e39e6a764c85d3c2c3fd111cf",
-    "X-SS-STUB": "D41D8CD98F00B204E9800998ECF8427E",
-    "sdk-version": "1",
-    "tt-request-time": "1602250834698",
-    "x-Tt-Token": "0094fa705bf6685d07cd4adbe28f457c44a2441c559b1bf506ddf511bc2a88c4ed6fb70bba6f975605ef0848bb6a49631959",
-    "x-tt-trace-id": "00-0d97848209fefb233fd8f872db6d0546-0d97848209fefb23-01"
-    },
-    timeout: 60000,
-}
-   $.post(watch_videourl,async(error, response, data) =>{
-     const result = JSON.parse(data)
-       //$.log('hotsoon'+no) 
-       if(logs) $.log(data)
-       message += '📣看视频\n'
-      if(result.err_no == 0) {
-          message +='🎉'+result.err_tips+'获得:'+result.data.amount+"\n"
-	  console.log(`【视频】🎉${result.err_tips}，获得:${result.data.amount}；`)
-           //return showmsg()
-        }
-      else{
-          message += '⚠️异常:'+result.err_tips+'\n'+'慢点看，不要慌，一会恢复\n'
-	  console.log(`【视频】⚠️异常，${result.err_tips}；`)
-          await watch_video5()
-      }
-          resolve()
-    })
-   })
-  } 
-
-function watch_video5() {
-return new Promise((resolve, reject) => {
-  let watch_videourl ={
-    url: `https://ib-hl.snssdk.com/luckycat/hotsoon/v1/task/done/daily_read_5m?version_code=7.6.1&app_name=live_stream_lite&vid=F8488563-79A8-4F10-8313-B25025043D7F&device_id=68445942781&channel=App%20Store&new_nav=0&aid=1350&ab_version=2067445,2063843,1944969,2056421,1698610,1776523,1479194,1258912,1810159,1521584,2071008,2054328,2008903,2071381,2031266,1751686,2032795,1432944,1569025,2002020,1568501,2061162,1802649,1618171,2076907,1830688,2078562,1340192,2080540,2063340,2027697,1880619,1917928,2071181,1993142,1856843,1801795,2033170,1978301,2014044,1747490,1745644,1972816,2066270,1317441,2025428,692223,2034632,1683111,1974796,2062707,2069850,1788903,1399159,1019139,2000818,1992860,1032070,1973126,2050796,1540549,2034028,1502678,2003549,1477984,2078274,1572498,2065549,1409058,1837386,2080075,1625927,1568501&ab_group=1568501&screen_width=750&client_request_id=d752c01df8c5d54b44c565774a1e4720&openudid=212febcfeb5820b579e6d22c17bf89b70f07fc40&live_sdk_version=7.6.1&update_version_code=7611&os_api=18&ws_status=CLOSED&ac=WIFI&mccmnc=&os_version=14.0&client_version_code=761&device_platform=iphone&iid=4327299917021549&device_type=iPad7,5&idfa=71A7ADD8-40B1-4D5F-BCA0-73E278451A36`,
-    headers: {
-    "Accept": "application/json",
-    "Accept-Encoding": "gzip, deflate",
-    "Connection": "keep-alive",
-    "Content-Length": "0",
-    "Content-Type": "application/json; encoding=utf-8",
-    "Cookie": "passport_csrf_token=c956d22d750f9e061a72a25adb20da32; install_id=4327299917021549; ttreq=1$dbe44cfcdabaa32e39e6a764c85d3c2c3fd111cf; odin_tt=5a1e1602d0df8e51a054d1471e5d0230012426798e9a05aee97adf3903e2ac9d9873a7f4d346fc0adccbbd6cc7b23ba59192ad3cfec61514aeeabd7af0798dde; d_ticket=c34ab6943249c08f88595471efa5a6dea8305; sessionid=94fa705bf6685d07cd4adbe28f457c44; sessionid_ss=94fa705bf6685d07cd4adbe28f457c44; sid_guard=94fa705bf6685d07cd4adbe28f457c44%7C1602250593%7C5184000%7CTue%2C+08-Dec-2020+13%3A36%3A33+GMT; sid_tt=94fa705bf6685d07cd4adbe28f457c44; uid_tt=cf316afde271fa7023ae424b264f6d27; uid_tt_ss=cf316afde271fa7023ae424b264f6d27",
-    "Host": "ib-hl.snssdk.com",
-    "User-Agent": "HotsoonLite 7.6.1 rv:7611 (iPad; iOS 14.0; zh_CN) Cronet",
-    "X-Gorgon": "840240180000a57f077baf9ff5f1d4fddced8ec9cfb7252135a8",
-    "X-Khronos": "1602250885",
-    "X-SS-Cookie": "d_ticket=c34ab6943249c08f88595471efa5a6dea8305; odin_tt=5a1e1602d0df8e51a054d1471e5d0230012426798e9a05aee97adf3903e2ac9d9873a7f4d346fc0adccbbd6cc7b23ba59192ad3cfec61514aeeabd7af0798dde; sessionid=94fa705bf6685d07cd4adbe28f457c44; sessionid_ss=94fa705bf6685d07cd4adbe28f457c44; sid_guard=94fa705bf6685d07cd4adbe28f457c44%7C1602250593%7C5184000%7CTue%2C+08-Dec-2020+13%3A36%3A33+GMT; sid_tt=94fa705bf6685d07cd4adbe28f457c44; uid_tt=cf316afde271fa7023ae424b264f6d27; uid_tt_ss=cf316afde271fa7023ae424b264f6d27; install_id=4327299917021549; passport_csrf_token=c956d22d750f9e061a72a25adb20da32; ttreq=1$dbe44cfcdabaa32e39e6a764c85d3c2c3fd111cf",
-    "X-SS-STUB": "D41D8CD98F00B204E9800998ECF8427E",
-    "sdk-version": "1",
-    "tt-request-time": "1602250885588",
-    "x-Tt-Token": "0094fa705bf6685d07cd4adbe28f457c44a2441c559b1bf506ddf511bc2a88c4ed6fb70bba6f975605ef0848bb6a49631959",
-    "x-tt-trace-id": "00-0d984b4a09fefb233fd21ad354d20546-0d984b4a09fefb23-01"
-},
-    timeout: 60000,
-}
-   $.post(watch_videourl,async(error, response, data) =>{
-     const result = JSON.parse(data)
-       //$.log('hotsoon'+no) 
-       if(logs) $.log(data)
-       message += '📣看视频\n'
-      if(result.err_no == 0) {
-          message +='🎉'+result.err_tips+'获得:'+result.data.amount+"\n"
-	  console.log(`【视频】🎉${result.err_tips}，获得:${result.data.amount}；`)
-          // return showmsg()
-        }
-      else{
-          message += '⚠️异常:'+result.err_tips+'\n'+'慢点看，不要慌，一会恢复\n'
-	  console.log(`【视频】⚠️异常，${result.err_tips}；`)
-          await watch_video10()
-      }
-          resolve()
-    })
-   })
-  } 
-
-function watch_video10() {
-return new Promise((resolve, reject) => {
-  let watch_videourl ={
-    url: `https://ib-hl.snssdk.com/luckycat/hotsoon/v1/task/done/daily_read_10m?version_code=7.6.1&app_name=live_stream_lite&vid=F8488563-79A8-4F10-8313-B25025043D7F&device_id=68445942781&channel=App%20Store&new_nav=0&aid=1350&ab_version=2067445,2063843,1944969,2056421,692223,2050796,1502678,1258912,1810159,1521584,2071008,2054328,2071381,2031266,1751686,2032795,1432944,1569025,2002020,1568501,2061162,2008903,1618171,2076907,1830688,1340192,2078562,1801795,2063340,2027697,1880619,1917928,2071181,1993142,1856843,2080540,2033170,1978301,2014044,1747490,1745644,1972816,2066270,1317441,2025428,1698610,2034632,1683111,1974796,2062707,2069850,1788903,1399159,1019139,2000818,1992860,1032070,1973126,1776523,1540549,2034028,1479194,1802649,2003549,1477984,2078274,1572498,1409058,1837386,2080075,1625927,1568501&ab_group=1568501&screen_width=750&client_request_id=c70c7b26d10216ae5c6f20d6057fd0da&openudid=212febcfeb5820b579e6d22c17bf89b70f07fc40&live_sdk_version=7.6.1&update_version_code=7611&os_api=18&ws_status=CLOSED&ac=WIFI&mccmnc=&os_version=14.0&client_version_code=761&device_platform=iphone&iid=4327299917021549&device_type=iPad7,5&idfa=71A7ADD8-40B1-4D5F-BCA0-73E278451A36`,
-    headers: {
-    "Accept": "application/json",
-    "Accept-Encoding": "gzip, deflate",
-    "Connection": "keep-alive",
-    "Content-Length": "0",
-    "Content-Type": "application/json; encoding=utf-8",
-    "Cookie": "passport_csrf_token=c956d22d750f9e061a72a25adb20da32; install_id=4327299917021549; ttreq=1$dbe44cfcdabaa32e39e6a764c85d3c2c3fd111cf; odin_tt=5a1e1602d0df8e51a054d1471e5d0230012426798e9a05aee97adf3903e2ac9d9873a7f4d346fc0adccbbd6cc7b23ba59192ad3cfec61514aeeabd7af0798dde; d_ticket=c34ab6943249c08f88595471efa5a6dea8305; sessionid=94fa705bf6685d07cd4adbe28f457c44; sessionid_ss=94fa705bf6685d07cd4adbe28f457c44; sid_guard=94fa705bf6685d07cd4adbe28f457c44%7C1602250593%7C5184000%7CTue%2C+08-Dec-2020+13%3A36%3A33+GMT; sid_tt=94fa705bf6685d07cd4adbe28f457c44; uid_tt=cf316afde271fa7023ae424b264f6d27; uid_tt_ss=cf316afde271fa7023ae424b264f6d27; excgd=20201009",
-    "Host": "ib-hl.snssdk.com",
-    "User-Agent": "HotsoonLite 7.6.1 rv:7611 (iPad; iOS 14.0; zh_CN) Cronet",
-    "X-Gorgon": "8402609f00000dd849bfaac34ac079723dc0bd222ff351446280",
-    "X-Khronos": "1602254020",
-    "X-SS-Cookie": "excgd=20201009; d_ticket=c34ab6943249c08f88595471efa5a6dea8305; odin_tt=5a1e1602d0df8e51a054d1471e5d0230012426798e9a05aee97adf3903e2ac9d9873a7f4d346fc0adccbbd6cc7b23ba59192ad3cfec61514aeeabd7af0798dde; sessionid=94fa705bf6685d07cd4adbe28f457c44; sessionid_ss=94fa705bf6685d07cd4adbe28f457c44; sid_guard=94fa705bf6685d07cd4adbe28f457c44%7C1602250593%7C5184000%7CTue%2C+08-Dec-2020+13%3A36%3A33+GMT; sid_tt=94fa705bf6685d07cd4adbe28f457c44; uid_tt=cf316afde271fa7023ae424b264f6d27; uid_tt_ss=cf316afde271fa7023ae424b264f6d27; install_id=4327299917021549; passport_csrf_token=c956d22d750f9e061a72a25adb20da32; ttreq=1$dbe44cfcdabaa32e39e6a764c85d3c2c3fd111cf",
-    "X-SS-STUB": "D41D8CD98F00B204E9800998ECF8427E",
-    "sdk-version": "1",
-    "tt-request-time": "1602254020728",
-    "x-Tt-Token": "0094fa705bf6685d07cd4adbe28f457c44a2441c559b1bf506ddf511bc2a88c4ed6fb70bba6f975605ef0848bb6a49631959",
-    "x-tt-trace-id": "00-0dc821ef09fefb233fda2585d8390546-0dc821ef09fefb23-01"
-    },
-    timeout: 60000,
-}
-   $.post(watch_videourl,async(error, response, data) =>{
-     const result = JSON.parse(data)
-       //$.log('hotsoon'+no) 
-       if(logs) $.log(data)
-       message += '📣看视频\n'
-      if(result.err_no == 0) {
-          message +='🎉'+result.err_tips+'获得:'+result.data.amount+"\n"
-	  console.log(`【视频】🎉${result.err_tips}，获得:${result.data.amount}；`)
-           //return showmsg()
-        }
-      else{
-          message += '⚠️异常:'+result.err_tips+'\n'+'慢点看，不要慌，一会恢复\n'
-	  console.log(`【视频】⚠️异常，${result.err_tips}；`)
-          await watch_video20()
-      }
-          resolve()
-    })
-   })
-  } 
-
-function watch_video20() {
-return new Promise((resolve, reject) => {
-  let watch_videourl ={
-    url: `https://ib-hl.snssdk.com/luckycat/hotsoon/v1/task/done/daily_read_20m?version_code=7.6.1&app_name=live_stream_lite&vid=F8488563-79A8-4F10-8313-B25025043D7F&device_id=68445942781&channel=App%20Store&new_nav=0&aid=1350&ab_version=2067445,2063843,1944969,2056421,692223,2050796,1502678,1258912,1810159,1521584,2071008,2054328,2008903,2031266,1477984,2032795,1432944,1569025,2002020,1568501,2061162,2071381,1618171,2076907,1830688,2078562,1340192,2080540,2063340,2027697,1880619,1917928,2071181,1993142,1440145,1856843,1801795,2033170,1978301,2014044,1747490,1745644,1972816,2066270,1317441,2025428,1698610,2034632,1683111,1974796,2062707,2069850,1788903,1399159,1019139,2000818,1992860,1032070,1973126,1776523,1540549,2034028,1479194,1802649,2003549,1751686,2078274,1572498,2065549,1409058,1837386,2080075,1625927,1568501&ab_group=1568501&screen_width=750&client_request_id=e8dbe1a04ae9975796fe111ff61dd0f7&openudid=212febcfeb5820b579e6d22c17bf89b70f07fc40&live_sdk_version=7.6.1&update_version_code=7611&os_api=18&ws_status=CLOSED&ac=WIFI&mccmnc=&os_version=14.0&client_version_code=761&device_platform=iphone&iid=4327299917021549&device_type=iPad7,5&idfa=71A7ADD8-40B1-4D5F-BCA0-73E278451A36`,
-    headers: {
-    "Accept": "application/json",
-    "Accept-Encoding": "gzip, deflate",
-    "Connection": "keep-alive",
-    "Content-Length": "0",
-    "Content-Type": "application/json; encoding=utf-8",
-    "Cookie": "passport_csrf_token=c956d22d750f9e061a72a25adb20da32; install_id=4327299917021549; ttreq=1$dbe44cfcdabaa32e39e6a764c85d3c2c3fd111cf; odin_tt=5a1e1602d0df8e51a054d1471e5d0230012426798e9a05aee97adf3903e2ac9d9873a7f4d346fc0adccbbd6cc7b23ba59192ad3cfec61514aeeabd7af0798dde; d_ticket=c34ab6943249c08f88595471efa5a6dea8305; sessionid=94fa705bf6685d07cd4adbe28f457c44; sessionid_ss=94fa705bf6685d07cd4adbe28f457c44; sid_guard=94fa705bf6685d07cd4adbe28f457c44%7C1602250593%7C5184000%7CTue%2C+08-Dec-2020+13%3A36%3A33+GMT; sid_tt=94fa705bf6685d07cd4adbe28f457c44; uid_tt=cf316afde271fa7023ae424b264f6d27; uid_tt_ss=cf316afde271fa7023ae424b264f6d27; excgd=20201009",
-    "Host": "ib-hl.snssdk.com",
-    "User-Agent": "HotsoonLite 7.6.1 rv:7611 (iPad; iOS 14.0; zh_CN) Cronet",
-    "X-Gorgon": "8402005c0000e346a06eca35e4083477cbefe994af17d16c4cdf",
-    "X-Khronos": "1602254766",
-    "X-SS-Cookie": "excgd=20201009; d_ticket=c34ab6943249c08f88595471efa5a6dea8305; odin_tt=5a1e1602d0df8e51a054d1471e5d0230012426798e9a05aee97adf3903e2ac9d9873a7f4d346fc0adccbbd6cc7b23ba59192ad3cfec61514aeeabd7af0798dde; sessionid=94fa705bf6685d07cd4adbe28f457c44; sessionid_ss=94fa705bf6685d07cd4adbe28f457c44; sid_guard=94fa705bf6685d07cd4adbe28f457c44%7C1602250593%7C5184000%7CTue%2C+08-Dec-2020+13%3A36%3A33+GMT; sid_tt=94fa705bf6685d07cd4adbe28f457c44; uid_tt=cf316afde271fa7023ae424b264f6d27; uid_tt_ss=cf316afde271fa7023ae424b264f6d27; install_id=4327299917021549; passport_csrf_token=c956d22d750f9e061a72a25adb20da32; ttreq=1$dbe44cfcdabaa32e39e6a764c85d3c2c3fd111cf",
-    "X-SS-STUB": "D41D8CD98F00B204E9800998ECF8427E",
-    "sdk-version": "1",
-    "tt-request-time": "1602254766819",
-    "x-Tt-Token": "0094fa705bf6685d07cd4adbe28f457c44a2441c559b1bf506ddf511bc2a88c4ed6fb70bba6f975605ef0848bb6a49631959",
-    "x-tt-trace-id": "00-0dd3845a09fefb233fddc8c122140546-0dd3845a09fefb23-01"
-    },
-    timeout: 60000,
-}
-   $.post(watch_videourl,async(error, response, data) =>{
-     const result = JSON.parse(data)
-       //$.log('hotsoon'+no) 
-       if(logs) $.log(data)
-       message += '📣看视频\n'
-      if(result.err_no == 0) {
-          message +='🎉'+result.err_tips+'获得:'+result.data.amount+"\n"
-	  console.log(`【视频】🎉${result.err_tips}，获得:${result.data.amount}；`)
-           //return showmsg()
-        }
-      else{
-          message += '⚠️异常:'+result.err_tips+'\n'+'慢点看，不要慌，一会恢复\n'
-	  console.log(`【视频】⚠️异常，${result.err_tips}；`)
-          await watch_video30()
-      }
-          resolve()
-    })
-   })
-  } 
-
-function watch_video30() {
-return new Promise((resolve, reject) => {
-  let watch_videourl ={
-    url: `https://ib-hl.snssdk.com/luckycat/hotsoon/v1/task/done/daily_read_30m?version_code=7.6.1&app_name=live_stream_lite&vid=F8488563-79A8-4F10-8313-B25025043D7F&device_id=68445942781&channel=App%20Store&new_nav=0&aid=1350&ab_version=2067445,2063843,1944969,2056421,692223,2050796,1502678,2081474,1258912,1810159,1521584,2071008,2054328,2081927,1802649,2031266,1751686,2032795,1432944,1569025,2002020,1568501,2061162,2081356,2071381,1618171,2076907,1830688,1340192,2081549,2078562,1801795,2063340,2027697,1880619,1917928,2081421,1993142,1856843,2080540,2033170,1978301,2014044,1747490,1745644,1972816,2066270,1317441,2025428,1698610,1683111,1974796,2062707,2069850,1788903,1399159,1019139,2000818,1992860,1032070,2071181,1973126,1776523,1540549,2034028,1479194,2003549,1477984,2078274,1572498,2008903,1409058,1837386,2080075,1625927,1568501&ab_group=1568501&screen_width=750&client_request_id=fcb586b356f13fdef8e167d23f05f603&openudid=212febcfeb5820b579e6d22c17bf89b70f07fc40&live_sdk_version=7.6.1&update_version_code=7611&os_api=18&ws_status=CONNECTED&ac=WIFI&mccmnc=&os_version=14.0&client_version_code=761&device_platform=iphone&iid=4327299917021549&device_type=iPad7,5&idfa=71A7ADD8-40B1-4D5F-BCA0-73E278451A36`,
-    headers: {
-    "Accept": "application/json",
-    "Accept-Encoding": "gzip, deflate",
-    "Connection": "keep-alive",
-    "Content-Length": "0",
-    "Content-Type": "application/json; encoding=utf-8",
-    "Cookie": "odin_tt=5a1e1602d0df8e51a054d1471e5d0230012426798e9a05aee97adf3903e2ac9d9873a7f4d346fc0adccbbd6cc7b23ba59192ad3cfec61514aeeabd7af0798dde; d_ticket=c34ab6943249c08f88595471efa5a6dea8305; sid_guard=94fa705bf6685d07cd4adbe28f457c44%7C1602250593%7C5184000%7CTue%2C+08-Dec-2020+13%3A36%3A33+GMT; uid_tt=cf316afde271fa7023ae424b264f6d27; uid_tt_ss=cf316afde271fa7023ae424b264f6d27; sid_tt=94fa705bf6685d07cd4adbe28f457c44; sessionid=94fa705bf6685d07cd4adbe28f457c44; sessionid_ss=94fa705bf6685d07cd4adbe28f457c44; install_id=4327299917021549; ttreq=1$dbe44cfcdabaa32e39e6a764c85d3c2c3fd111cf; excgd=20201010",
-    "Host": "ib-hl.snssdk.com",
-    "User-Agent": "HotsoonLite 7.6.1 rv:7611 (iPad; iOS 14.0; zh_CN) Cronet",
-    "X-Gorgon": "84020074000075fc29cf87294840400b5c6ecc158296f052492f",
-    "X-Khronos": "1602332469",
-    "X-SS-Cookie": "excgd=20201010; d_ticket=c34ab6943249c08f88595471efa5a6dea8305; odin_tt=5a1e1602d0df8e51a054d1471e5d0230012426798e9a05aee97adf3903e2ac9d9873a7f4d346fc0adccbbd6cc7b23ba59192ad3cfec61514aeeabd7af0798dde; sessionid=94fa705bf6685d07cd4adbe28f457c44; sessionid_ss=94fa705bf6685d07cd4adbe28f457c44; sid_guard=94fa705bf6685d07cd4adbe28f457c44%7C1602250593%7C5184000%7CTue%2C+08-Dec-2020+13%3A36%3A33+GMT; sid_tt=94fa705bf6685d07cd4adbe28f457c44; uid_tt=cf316afde271fa7023ae424b264f6d27; uid_tt_ss=cf316afde271fa7023ae424b264f6d27; install_id=4327299917021549; ttreq=1$dbe44cfcdabaa32e39e6a764c85d3c2c3fd111cf",
-    "X-SS-STUB": "D41D8CD98F00B204E9800998ECF8427E",
-    "sdk-version": "1",
-    "tt-request-time": "1602332469653",
-    "x-Tt-Token": "0094fa705bf6685d07cd4adbe28f457c44a2441c559b1bf506ddf511bc2a88c4ed6fb70bba6f975605ef0848bb6a49631959",
-    "x-tt-trace-id": "00-12752b0c09fefb233fd1ff679fae0546-12752b0c09fefb23-01"
-    },
-    timeout: 60000,
-}
-   $.post(watch_videourl,async(error, response, data) =>{
-     const result = JSON.parse(data)
-       //$.log('hotsoon'+no) 
-       if(logs) $.log(data)
-       message += '📣看视频\n'
-      if(result.err_no == 0) {
-          message +='🎉'+result.err_tips+'获得:'+result.data.amount+"\n"
-	  console.log(`【视频】🎉${result.err_tips}，获得:${result.data.amount}；`)
-           //return showmsg()
-        }
-      else{
-          message += '⚠️异常:'+result.err_tips+'\n'+'慢点看，不要慌，一会恢复\n'
-	  console.log(`【视频】⚠️异常，${result.err_tips}；`)
-          await watch_video60()
-      }
-          resolve()
-    })
-   })
-  } 
-
-function watch_video60() {
-return new Promise((resolve, reject) => {
-  let watch_videourl ={
-    url: `https://ib-hl.snssdk.com/luckycat/hotsoon/v1/task/done/daily_read_60m?version_code=7.6.1&app_name=live_stream_lite&vid=F8488563-79A8-4F10-8313-B25025043D7F&device_id=68445942781&new_nav=0&channel=App%20Store&aid=1350&ab_group=1568501&screen_width=750&client_request_id=c8e5da440832dc7eaa600d744edbcfae&openudid=212febcfeb5820b579e6d22c17bf89b70f07fc40&live_sdk_version=7.6.1&update_version_code=7611&os_api=18&ws_status=CONNECTED&ac=WIFI&mccmnc=&os_version=14.2&client_version_code=761&device_platform=iphone&iid=4327299917021549&device_type=iPad7,5&idfa=71A7ADD8-40B1-4D5F-BCA0-73E278451A36`,
-    headers: {
-    "Accept": "application/json",
-    "Accept-Encoding": "gzip, deflate",
-    "Connection": "keep-alive",
-    "Content-Length": "0",
-    "Content-Type": "application/json; encoding=utf-8",
-    "Cookie": "odin_tt=5a1e1602d0df8e51a054d1471e5d0230012426798e9a05aee97adf3903e2ac9d9873a7f4d346fc0adccbbd6cc7b23ba59192ad3cfec61514aeeabd7af0798dde; d_ticket=c34ab6943249c08f88595471efa5a6dea8305; sid_guard=94fa705bf6685d07cd4adbe28f457c44%7C1610967020%7C5184000%7CFri%2C+19-Mar-2021+10%3A50%3A20+GMT; uid_tt=cf316afde271fa7023ae424b264f6d27; uid_tt_ss=cf316afde271fa7023ae424b264f6d27; sid_tt=94fa705bf6685d07cd4adbe28f457c44; sessionid=94fa705bf6685d07cd4adbe28f457c44; sessionid_ss=94fa705bf6685d07cd4adbe28f457c44; install_id=4327299917021549; ttreq=1$dbe44cfcdabaa32e39e6a764c85d3c2c3fd111cf",
-    "Host": "ib-hl.snssdk.com",
-    "User-Agent": "HotsoonLite 7.6.1 rv:7611 (iPad; iOS 14.2; zh_CN) Cronet",
-    "X-Gorgon": "8402a0650000c911010cd7f5a4e4f48b97888945e98bf187d1ab",
-    "X-Khronos": "1611323914",
-    "X-SS-Cookie": "install_id=4327299917021549; ttreq=1$dbe44cfcdabaa32e39e6a764c85d3c2c3fd111cf; sessionid=94fa705bf6685d07cd4adbe28f457c44; sessionid_ss=94fa705bf6685d07cd4adbe28f457c44; sid_guard=94fa705bf6685d07cd4adbe28f457c44%7C1610967020%7C5184000%7CFri%2C+19-Mar-2021+10%3A50%3A20+GMT; sid_tt=94fa705bf6685d07cd4adbe28f457c44; uid_tt=cf316afde271fa7023ae424b264f6d27; uid_tt_ss=cf316afde271fa7023ae424b264f6d27; d_ticket=c34ab6943249c08f88595471efa5a6dea8305; odin_tt=5a1e1602d0df8e51a054d1471e5d0230012426798e9a05aee97adf3903e2ac9d9873a7f4d346fc0adccbbd6cc7b23ba59192ad3cfec61514aeeabd7af0798dde",
-    "X-SS-STUB": "D41D8CD98F00B204E9800998ECF8427E",
-    "sdk-version": "1",
-    "tt-request-time": "1611323907230",
-    "x-Tt-Token": "0094fa705bf6685d07cd4adbe28f457c44017d3dc8b712eb077ce980b9c814a67cc8a4dbd735366447909f4d7c88506749044a3ec27055e0a0b094e6d8f810f996aa5fa5d4ee440343e282d3aa29f8fc878bac79c85f80ee81237dee7e70ebecf581d-1.0.1",
-    "x-tt-trace-id": "00-2a639e1609fefb233fd6f518d7880546-2a639e1609fefb23-01"
-    },
-    timeout: 60000,
-}
-   $.post(watch_videourl,async(error, response, data) =>{
-     const result = JSON.parse(data)
-       //$.log('hotsoon'+no) 
-       if(logs) $.log(data)
-       message += '📣看视频\n'
-      if(result.err_no == 0) {
-          message +='🎉'+result.err_tips+'获得:'+result.data.amount+"\n"
-	  console.log(`【视频】🎉${result.err_tips}，获得:${result.data.amount}；`)
-           //return showmsg()
-        }
-      else{
-          message += '⚠️异常:'+result.err_tips+'\n'+'慢点看，不要慌，一会恢复\n'
-	  console.log(`【视频】⚠️异常，${result.err_tips}；`)
-      }
-          resolve()
-    })
-   })
-  } 
-
-
-/*
 function watch_video(no) {
 return new Promise((resolve, reject) => {
   let watch_videourl ={
@@ -781,39 +306,50 @@ return new Promise((resolve, reject) => {
 }
    $.post(watch_videourl,(error, response, data) =>{
      const result = JSON.parse(data)
-       $.log('hotsoon'+no) 
        if(logs) $.log(data)
        message += '📣看视频\n'
       if(result.err_no == 10012){
           message += '⚠️异常:'+no+'时段任务完成\n'
-	  console.log(`【视频】⚠️异常，${no}时段任务完成；`)
-      }
+        if(no==2){
+           no=5
+         return watch_video(no);
+       }
+       else if(no == 20){
+            no= 30
+          return watch_video(no);
+        }
+      else if(no == 1 || no == 5 || no == 10 || no == 30){
+           no=2*no
+         return watch_video(no);
+          }
+      else if(no == 60){
+           message += '视频任务全部完成\n'
+           if(hour >= 0){
+           no = 1;
+           return watch_video(no);
+   }
+ }
+        else{
+           return showmsg();
+     }}
       else if(result.err_no == 0) {
           message +='🎉'+result.err_tips+'获得:'+result.data.amount+"\n"
-	  console.log(`【视频】🎉${result.err_tips}，获得:${result.data.amount}；`)
-           return showmsg()
         }
       else{
-          message += '⚠️异常:'+result.err_tips+'\n'+'慢点看，不要慌，一会恢复\n'
-	  console.log(`【视频】⚠️异常，${result.err_tips}；`)
-          //let other = '⚠️异常:'+result.err_tips+'请重新获取readkey\n'
+          message += '⚠️异常:'+result.err_tips+'\n'+'请重新获取readkey\n'
+          let other = '⚠️异常:'+result.err_tips+'请重新获取readkey\n'
           //$.msg(jsname,'',other)
-          //return showmsg()
       }
           resolve()
     })
    })
   } 
-  */
-  
-  
-  
-function showmsg(){
+async function showmsg(){
 if(tz==1){
     if ($.isNode()){
      $.log(message)
     if ((hour == 12 && minute <= 20) || (hour == 23 && minute >= 40)) {
-       notify.sendNotify($.name,message)
+       await notify.sendNotify($.name,message)
      }
    }else{
       $.log(message)
